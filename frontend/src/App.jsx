@@ -1,29 +1,28 @@
 import { useState, useEffect } from "react";
 
 function App() {
-  const [newTicket, setNewTicket] = useState(""); // Stores input value
-  const [tickets, setTickets] = useState([]); // Stores list of tickets
+  const [newTicket, setNewTicket] = useState(""); 
+  const [tickets, setTickets] = useState([]); 
 
-  // ✅ Fetch existing tickets when the page loads
+  
   useEffect(() => {
     fetch("http://localhost:5000/tickets")
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetched tickets:", data); // Debugging
+        console.log("Fetched tickets:", data); 
         setTickets(data);
       })
       .catch((error) => console.error("Error fetching tickets:", error));
   }, []);
 
-  // ✅ Function to add a new ticket
+ 
   const handleAddTicket = async () => {
     if (!newTicket.trim()) {
       alert("Please enter a ticket description!");
       return;
     }
 
-    const ticketData = { description: newTicket }; // Ensure it matches backend format
-
+    const ticketData = { description: newTicket }; 
     try {
       const response = await fetch("http://localhost:5000/tickets", {
         method: "POST",
@@ -38,8 +37,8 @@ function App() {
       const addedTicket = await response.json();
       console.log("Added Ticket:", addedTicket); // Debugging
 
-      setTickets([...tickets, addedTicket]); // ✅ Update UI with new ticket
-      setNewTicket(""); // ✅ Clear input field
+      setTickets([...tickets, addedTicket]); 
+      setNewTicket(""); 
     } catch (error) {
       console.error("Error adding ticket:", error);
     }
